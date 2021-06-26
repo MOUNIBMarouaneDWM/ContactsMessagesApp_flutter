@@ -17,8 +17,9 @@ class ContactsState{
   List<Contact> contacts;
   RequestState requestState;
   String errorMessage;
+  ContactsEvent currentEvent;
 
-  ContactsState({this.contacts, this.requestState, this.errorMessage});
+  ContactsState({this.contacts, this.requestState, this.errorMessage,this.currentEvent});
 }
 
 class ContactsBloc extends Bloc<ContactsEvent,ContactsState>{
@@ -30,12 +31,12 @@ class ContactsBloc extends Bloc<ContactsEvent,ContactsState>{
   @override
   Stream<ContactsState> mapEventToState(ContactsEvent event) async* {
     if (event is LoadAllContactsEvent){
-      yield ContactsState(contacts: state.contacts,requestState:RequestState.LOADING );
+      yield ContactsState(contacts: state.contacts,requestState:RequestState.LOADING ,currentEvent:event );
       try {
         List<Contact> data=await contactsRepository.allContacts();
-        yield ContactsState(contacts: data,requestState: RequestState.LOADED);
+        yield ContactsState(contacts: data,requestState: RequestState.LOADED,currentEvent:event);
       } catch (e) {
-        yield ContactsState(contacts: state.contacts,requestState: RequestState.ERROR,errorMessage: e.message);
+        yield ContactsState(contacts: state.contacts,requestState: RequestState.ERROR,errorMessage: e.message,currentEvent:event);
       }
 
     }
