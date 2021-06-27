@@ -1,26 +1,14 @@
 import 'package:bloc/bloc.dart';
+import 'package:contacts_messages_app/enums/enums.dart';
 import 'package:contacts_messages_app/model/contact.model.dart';
 import 'package:contacts_messages_app/repositories/contacts.repo.dart';
-import 'package:flutter/material.dart';
 
-abstract class ContactsEvent{}
+import 'contacts.actions.dart';
+import 'contacts.state.dart';
 
-class LoadAllContactsEvent extends ContactsEvent{}
-class LoadStudentsEvent extends ContactsEvent{}
-class LoadDeveloperEvent extends ContactsEvent{}
 
-enum RequestState{
-  LOADING, LOADED, ERROR, NONE
-}
 
-class ContactsState{
-  List<Contact> contacts;
-  RequestState requestState;
-  String errorMessage;
-  ContactsEvent currentEvent;
 
-  ContactsState({this.contacts, this.requestState, this.errorMessage,this.currentEvent});
-}
 
 class ContactsBloc extends Bloc<ContactsEvent,ContactsState>{
   ContactsRepository contactsRepository;

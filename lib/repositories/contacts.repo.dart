@@ -14,7 +14,7 @@ Map<int,Contact> contacts={
 Future<List<Contact>> allContacts() async{
   await Future.delayed(Duration(seconds: 1));
   int rmd = Random().nextInt(10);
-  if(rmd>3){
+  if(rmd>1){
     return contacts.values.toList();
   }
   else{
@@ -24,7 +24,7 @@ Future<List<Contact>> allContacts() async{
 Future<List<Contact>> contactByType(String type) async{
   await Future.delayed(Duration(seconds: 1));
   int rmd = Random().nextInt(10);
-  if(rmd>0){
+  if(rmd>1){
     return contacts.values.toList().where((element) => element.Type==type).toList();
   }
   else{
