@@ -25,68 +25,76 @@ class ContactsPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<ContactsBloc>().add(LoadStudentsEvent());
+                    },
                     child: Text('Students'),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      context.read<ContactsBloc>().add(LoadDeveloperEvent());
+                    },
                     child: Text('Developers'),
                   ),
                 ),
               ],
             ),
           ),
-          BlocBuilder<ContactsBloc, ContactsState>(builder: (context, state) {
-            if (state.requestState == RequestState.LOADING) {
-              Center(child: CircularProgressIndicator());
-            }
-            else if (state.requestState == RequestState.ERROR) {
-              return Expanded(
-                child: Column(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        context.read<ContactsBloc>().add(state.currentEvent);
-                      },
-                      child: Text('Retry',style: TextStyle(color: Colors.white),),
-                    )
-                  ],
-                ),
-              );
-            }
-            else if(state.requestState==RequestState.LOADED){
-              return Expanded(
-                child: ListView.builder(
-                  itemCount: state.contacts.length,
-                  itemBuilder:(context,index){
-                    return ListTile(
-                      title: Row(
-                        mainAxisAlignment:MainAxisAlignment.spaceBetween ,
-                        children: [
+          Expanded(
+            child: BlocBuilder<ContactsBloc, ContactsState>(builder: (context, state) {
+              if (state.requestState == RequestState.LOADING) {
+               return Center(child: CircularProgressIndicator());
+              }
+              else if (state.requestState == RequestState.ERROR) {
+                return Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('${state.errorMessage}'),
+                      ElevatedButton(
+                        onPressed: () {
+                          context.read<ContactsBloc>().add(state.currentEvent);
+                        },
+                        child: Text('Retry',style: TextStyle(color: Colors.white),),
+                      )
+                    ],
+                  ),
+                );
+              }
+              else if(state.requestState==RequestState.LOADED){
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: state.contacts.length,
+                    itemBuilder:(context,index){
+                      return ListTile(
+                        title: Row(
+                          mainAxisAlignment:MainAxisAlignment.spaceBetween ,
+                          children: [
+                            Row(
+                              children: [
+                                CircleAvatar(child:Text('${state.contacts[index].profile}') ,),
+                                SizedBox(width: 16,),
+                                Text('${state.contacts[index].name}'),
+                              ],
+                            ),
+                            CircleAvatar(child:(
+                                Text('${state.contacts[index].score}')
+                            ),),
+                          ],
+                        ),
+                      );
+                    } ,),
+                );
+              }
+              else{
+                return Container();
+              }
+            }),
+          )
 
-                          Row(
-                            children: [
-                              CircleAvatar(child:Text('${state.contacts[index].profile}') ,),
-                              SizedBox(width: 16,),
-                              Text('${state.contacts[index].name}'),
-                            ],
-                          ),
-                          CircleAvatar(child:(
-                              Text('${state.contacts[index].score}')
-                          ),),
-                        ],
-                      ),
-                    );
-                  } ,),
-              );
-            }
-            else{
-              return Container();
-            }
-          })
         ],
       ),
     );

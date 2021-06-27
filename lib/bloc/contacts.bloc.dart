@@ -41,9 +41,21 @@ class ContactsBloc extends Bloc<ContactsEvent,ContactsState>{
 
     }
     else if (event is LoadStudentsEvent ){
+      try {
+        List<Contact> data=await contactsRepository.contactByType("student");
+        yield ContactsState(contacts: data,requestState: RequestState.LOADED,currentEvent:event);
+      } catch (e) {
+        yield ContactsState(contacts: state.contacts,requestState: RequestState.ERROR,errorMessage: e.message,currentEvent:event);
+      }
 
     }
     else if (event is LoadDeveloperEvent ){
+      try {
+        List<Contact> data=await contactsRepository.contactByType("developer");
+        yield ContactsState(contacts: data,requestState: RequestState.LOADED,currentEvent:event);
+      } catch (e) {
+        yield ContactsState(contacts: state.contacts,requestState: RequestState.ERROR,errorMessage: e.message,currentEvent:event);
+      }
 
     }
   }
