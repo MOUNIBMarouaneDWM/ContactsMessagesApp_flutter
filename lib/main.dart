@@ -3,11 +3,13 @@ import 'package:contacts_messages_app/repositories/contacts.repo.dart';
 import 'package:contacts_messages_app/ui/pages/contacts/contact.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import 'bloc/contacts.state.dart';
 import 'enums/enums.dart';
 
 void main() {
+  GetIt.instance.registerLazySingleton(()=> ContactsRepository());
   runApp(MyApp());
 }
 
@@ -19,7 +21,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context)=> ContactsBloc(
             ContactsState(contacts:[],errorMessage: '',requestState: RequestState.NONE ),
-            new ContactsRepository()))
+            GetIt.instance<ContactsRepository>()))
       ],
       child: MaterialApp(
         theme: ThemeData(primarySwatch: Colors.red),
