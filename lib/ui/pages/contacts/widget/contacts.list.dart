@@ -12,6 +12,9 @@ ContactsList({this.contacts});
       itemCount: contacts.length,
       itemBuilder:(context,index){
         return ListTile(
+          onTap:(){
+            Navigator.pushNamed(context, "/messages",arguments: contacts[index]);
+          } ,
           title: Row(
             mainAxisAlignment:MainAxisAlignment.spaceBetween ,
             children: [

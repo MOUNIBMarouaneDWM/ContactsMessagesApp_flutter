@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:contacts_messages_app/enums/enums.dart';
 import 'package:contacts_messages_app/model/contact.model.dart';
 import 'package:contacts_messages_app/repositories/contacts.repo.dart';
-
 import 'contacts.actions.dart';
 import 'contacts.state.dart';
 

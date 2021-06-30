@@ -27,8 +27,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(primarySwatch: Colors.red),
         routes: {
           '/contacts':(context)=>ContactsPage(),
+          '/messages':(context)=>ContactsPage(),
         },
-        initialRoute: '/contacts',
+        initialRoute: '/messages',
       ),
     );
   }
